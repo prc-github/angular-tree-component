@@ -110,11 +110,15 @@ export class TreeVirtualScroll {
         node.position < this.y || // node is above viewport
         node.position + node.getSelfHeight() > this.y + this.viewportHeight) { // node is below viewport
         if (this.viewport) {
-          this.viewport.scrollTop = scrollToMiddle ?
+          const targetY = scrollToMiddle ?
           node.position - this.viewportHeight / 2 : // scroll to middle
           node.position; // scroll to start
 
-          this._setYBlocks(Math.floor(this.viewport.scrollTop / Y_EPSILON));
+          this._setYBlocks(Math.floor(targetY / Y_EPSILON));
+
+          setTimeout(() => {
+            this.viewport.scrollTop = targetY;
+          });
         }
       }
     }
